@@ -5,9 +5,9 @@ import { message } from "../common/message.js";
 
 export const userController = {
 
-    createUser: async(req , res) => {
+    createUser: async(body) => {
         try{
-            const  {body} = req;
+           
             console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',body);
             const newUser = await userService.createUser(body);
             handleResponse(res, 200,message.create_user,newUser);
@@ -41,9 +41,10 @@ export const userController = {
     },
     updateUser : async(req = request, res = response) => {
         try{
-            const {id_user,name , lastname , birthDate , email }  = req.params.body
-            const user = await userService.updateUser(id_user , { name : name , lastname : lastname ,
-                                                                birthDate : birthDate , email : email , dateUpdate : new Date });
+            const { id_user}  = req.params
+            const { body } = req;
+            console.log(body)
+            const user = await userService.updateUser(id_user , body );
             handleResponse(res,200,message.message_succes,user);
         }
         catch(err){

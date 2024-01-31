@@ -1,6 +1,6 @@
 import { message } from '../common/message.js';
-import { dataBase } from '../database/database.js';
-import { profileModel } from '../model/profile.js';
+import  dataBase  from '../database/database.js';
+import { Profile } from '../model/profile.js';
 
 export const profileService = {
     // --------  Services  Profile  --------- //
@@ -8,7 +8,7 @@ export const profileService = {
     createProfile: async(data) => {
         try{
                 await dataBase();
-                const newProfile = new profileModel(data);
+                const newProfile = new Profile(data);
                 const profile = await newProfile.save();
                 return profile;
         }
@@ -20,7 +20,7 @@ export const profileService = {
     getAllProfile: async() =>{
         try{
             await dataBase();
-            const profiles = await profileModel.findAll({status: true})
+            const profiles = await Profile.findAll({status: true})
             return profiles;
         }
         catch(err){
@@ -31,7 +31,7 @@ export const profileService = {
     getOneProfile: async(id) =>{
         try{
             await dataBase();
-            const profile = await profileModel.findOne({_id : id});
+            const profile = await Profile.findOne({_id : id});
             return profile;
         }
         catch(err){
@@ -42,7 +42,7 @@ export const profileService = {
     updateUser: async(id,data)=>{
         try{
             await dataBase();
-            const profile = profileModel.findByIdAndUpdate(id,data);
+            const profile = Profile.findByIdAndUpdate(id,data);
             return profile;
 
         }
@@ -53,7 +53,7 @@ export const profileService = {
     deleteUser : async(id) => {
         try{
             await dataBase();
-            const profile = profileModel.findByIdAndUpdate(id,{status : false})
+            const profile = Profile.findByIdAndUpdate(id,{status : false})
             return profile;
         }
         catch(err){
@@ -71,7 +71,7 @@ export const profileService = {
     setProfileImage: async(id_profile,id_profileImage) =>{
         try{
             await dataBase();
-            const setProfile = await profileModel.findOneAndUpdate({_id:id_profile},{$addToSet  :{"profileImage.$.id_profileImage:": id_profileImage}});
+            const setProfile = await Profile.findOneAndUpdate({_id:id_profile},{$addToSet  :{"profileImage.$.id_profileImage:": id_profileImage}});
             return setProfile
         }
         catch(err){
@@ -83,7 +83,7 @@ export const profileService = {
     deleteProfileImage: async(id_profile,id_profileImage) =>{
         try{
             await dataBase();
-            const deleteProfile = await profileModel.findOneAndUpdate({_id:id_profile},{$pull :{"profileImage.$.id_profileImage:": id_profileImage}});
+            const deleteProfile = await Profile.findOneAndUpdate({_id:id_profile},{$pull :{"profileImage.$.id_profileImage:": id_profileImage}});
             return deleteProfile
         }
         catch(err){
@@ -95,7 +95,7 @@ export const profileService = {
     getProfileImage: async(id_profile, id_profileImage) =>{
         try{
             await dataBase();
-            const deleteProfile = await profileModel.findOneAndUpdate({_id:id_profile},{$elemMatch : {"profileImage.$.id_profileImage:": id_profileImage}});
+            const deleteProfile = await Profile.findOneAndUpdate({_id:id_profile},{$elemMatch : {"profileImage.$.id_profileImage:": id_profileImage}});
             return deleteProfile
         }
         catch(err){
@@ -110,7 +110,7 @@ export const profileService = {
     setPost: async(id_profile,id_post) =>{
         try{
             await dataBase();
-            const set = await profileModel.findOneAndUpdate({_id:id_profile},{$set :{"post.$.id_post:": id_post}});
+            const set = await Profile.findOneAndUpdate({_id:id_profile},{$set :{"post.$.id_post:": id_post}});
             return set;
         }
         catch(err){
@@ -121,7 +121,7 @@ export const profileService = {
     deletePost: async(id_profile,id_post) =>{
         try{
             await dataBase();
-            const delPost = await profileModel.findOneAndUpdate({_id:id_profile},{$pull :{"post.$.id_post:": id_post}});
+            const delPost = await Profile.findOneAndUpdate({_id:id_profile},{$pull :{"post.$.id_post:": id_post}});
             return delPost;
         }
         catch(err){
@@ -137,7 +137,7 @@ export const profileService = {
     setFollower: async(id_profile,id_follower) =>{
         try{
             await dataBase();
-            const setFollow = await profileModel.findOneAndUpdate({_id:id_profile},{$set :{"follower.$.id_follower:": id_follower}});
+            const setFollow = await Profile.findOneAndUpdate({_id:id_profile},{$set :{"follower.$.id_follower:": id_follower}});
             return setFollow;
         }
         catch(err){
@@ -148,7 +148,7 @@ export const profileService = {
     deleteFollower: async(id_profile,id_follower) =>{
         try{
             await dataBase();
-            const deleteFollow = await profileModel.findOneAndUpdate({_id:id_profile},{$pull :{"follower.$.id_follower:": id_follower}});
+            const deleteFollow = await Profile.findOneAndUpdate({_id:id_profile},{$pull :{"follower.$.id_follower:": id_follower}});
             return deleteFollow;
         }
         catch(err){
@@ -163,7 +163,7 @@ export const profileService = {
     setByFollowing : async(id_profile,id_following) =>{
         try{
             await dataBase();
-            const byFollowing = await profileModel.findOneAndUpdate({_id:id_profile},{$set :{"follower.$.id_following:": id_following}});
+            const byFollowing = await Profile.findOneAndUpdate({_id:id_profile},{$set :{"follower.$.id_following:": id_following}});
             return byFollowing;
         }
         catch{
@@ -173,7 +173,7 @@ export const profileService = {
     deleteByFollowing : async(id_profile,id_following) =>{
         try{
             await dataBase();
-            const deleteFollowing = await profileModel.findOneAndUpdate({_id:id_profile},{$pull :{"follower.$.id_following:": id_following}});
+            const deleteFollowing = await Profile.findOneAndUpdate({_id:id_profile},{$pull :{"follower.$.id_following:": id_following}});
             return deleteFollowing;
         }
         catch{

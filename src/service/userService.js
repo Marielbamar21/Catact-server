@@ -22,11 +22,11 @@ export const userService = {
     getAllUser: async() =>{
         try{
             await dataBase();
-            const users = await User.findAll({status: true})
+            const users = await User.find({status: true})
             return users;
         }
         catch(err){
-            console.log( message.error_get);
+            console.log( message.error_get, err);
         }
         
     },
@@ -44,8 +44,9 @@ export const userService = {
     updateUser: async(id,data)=>{
         try{
             await dataBase();
-            const user = User.findByIdAndUpdate(id,data);
-            return user;
+            const user = await User.findByIdAndUpdate(id, { name : data.name , lastname: data.lastname,
+                                                    birthDate: data.birthDate , email : data.email , dateUpdate: new Date});
+            return { id_user: id , data};
 
         }
         catch(err){

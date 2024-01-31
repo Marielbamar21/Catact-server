@@ -1,15 +1,18 @@
 import { request, response } from "express";
-import { userService } from "../service/userService.js";
+import { profileService } from "../service/profileService.js";
+import { userService } from "../service/userService.js"
 import { handleError,handleResponse } from "../common/errorHandlers.js";
 import { message } from "../common/message.js";
 
-export const userController = {
+export const profileController = {
 
-    createUser: async(req = request, res = response) => {
+    createProfile: async(req = request, res = response) => {
         try{
-            const {params : {body}} = req;
+            const  {body} = req;
             const newUser = await userService.createUser(body);
-            handleResponse(res, 200,message.create_user,newUser);
+            console.log(newUser._id);
+            const newProfile = await profileService.createProfile({ id_user : newUser._id});
+            handleResponse(res,200,message.create_user, newProfile);
 
         }
         catch(err){

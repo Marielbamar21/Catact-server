@@ -1,6 +1,6 @@
-import { Schema, ObjectId } from "mongoose";
+import { Schema, ObjectId, mongoose } from "mongoose";
 
-export const profileModel = new Schema({
+const profileModel = new Schema({
 
     id_user :  ObjectId,
     profileImage : [{ id_profileImage: ObjectId}],
@@ -15,7 +15,7 @@ export const profileModel = new Schema({
 },{ collection: 'profile' });
 
 profileModel.pre('save', (next) => {
-    this.dateUpdate = new Date();
+    dateUpdate = new Date();
     next();
 });
 export const Profile = mongoose.model('profile', profileModel);
