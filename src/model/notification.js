@@ -1,9 +1,9 @@
-import { Schema, ObjectId } from "mongoose";
+import { Schema, ObjectId ,mongoose} from "mongoose";
 
-export const notificationModel = new Schema ({
-    id_user: ObjectId,
+const notificationSchema = new Schema ({
+    profile: [{id_profile:{type: ObjectId, ref: 'profile'}}],
     id_action: ObjectId,
-    type: String,
+    typeAction: String,
     heather: String,
     content: String,
     dataCreate: { type: Date , default: Date.now},
@@ -12,4 +12,4 @@ export const notificationModel = new Schema ({
     sstatus: { type: Boolean , default: true}
 }, { collection: 'notification' });
 
-export const notification = mongoose.model('notification', notificationModel);
+export const notification = mongoose.model('notification', notificationSchema);

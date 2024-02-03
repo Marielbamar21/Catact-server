@@ -60,7 +60,7 @@ export const userService = {
             return user;
         }
         catch(err){
-            console.log(message.err_delete);
+            console.log(message.error_delete);
         }
     }
 }

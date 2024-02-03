@@ -1,12 +1,13 @@
 import { Schema, ObjectId, mongoose } from "mongoose";
 
-const profileModel = new Schema({
 
-    id_user :  ObjectId,
-    profileImage : [{ id_profileImage: ObjectId}],
-    post: [{ id_post : ObjectId}],
-    follower: [{id_follower : ObjectId}],
-    byfollowing: [{id_following : ObjectId}],
+const profileSchema = new Schema({
+
+    id_user :  {type:ObjectId, ref: 'user'},
+    profileImage : [{id_profileImage:{type: ObjectId , ref: 'media'}}],
+    post: [{id_post : {type: ObjectId , ref:'post'}}],
+    follower: [{id_follower : {type:ObjectId , ref:'profile'}}],
+    byfollowing: [{id_following : {type:ObjectId , ref:'profile'}}],
     dataCreate: { type: Date , default: Date.now},
     dateUpdate: { type: Date , default: Date.now},
     status: { type: Boolean , default: true}
@@ -14,8 +15,6 @@ const profileModel = new Schema({
 
 },{ collection: 'profile' });
 
-profileModel.pre('save', (next) => {
-    dateUpdate = new Date();
-    next();
-});
-export const Profile = mongoose.model('profile', profileModel);
+
+
+export const Profile = mongoose.model('profile', profileSchema);

@@ -13,24 +13,25 @@ export const profileService = {
                 return profile;
         }
         catch(err){
-            console.log(message.error_create);
+            console.log(message.error_create, err);
         }
 
     },
     getAllProfile: async() =>{
         try{
             await dataBase();
-            const profiles = await Profile.findAll({status: true})
+            const profiles = await Profile.find({status: true});
             return profiles;
         }
         catch(err){
-            console.log( message.error_get);
+            console.log( message.error_get,err);
         }
         
     },
     getOneProfile: async(id) =>{
         try{
             await dataBase();
+            console.log(id)
             const profile = await Profile.findOne({_id : id});
             return profile;
         }
@@ -39,21 +40,10 @@ export const profileService = {
         }
         
     },
-    updateUser: async(id,data)=>{
+    deleteProfile : async(id) => {
         try{
             await dataBase();
-            const profile = Profile.findByIdAndUpdate(id,data);
-            return profile;
-
-        }
-        catch(err){
-            console.log( message.error_update);
-        }
-    },
-    deleteUser : async(id) => {
-        try{
-            await dataBase();
-            const profile = Profile.findByIdAndUpdate(id,{status : false})
+            const profile = Profile.findByIdAndUpdate({_id : id },{status : false,dateUpdate: new Date})
             return profile;
         }
         catch(err){

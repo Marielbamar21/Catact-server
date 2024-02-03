@@ -1,6 +1,7 @@
-import { Schema, ObjectId } from "mongoose";
+import { Schema, ObjectId, mongoose } from "mongoose";
 
-export const mediaModel = new Schema({
+const mediaSchema = new Schema({
+    profile: ObjectId,
     media: String,
     id_user: ObjectId,
     category: String,
@@ -9,4 +10,4 @@ export const mediaModel = new Schema({
     status : { type: Boolean , default: true}
 }, { collection: 'media' });
 
-export const Media = mongoose.model('media', mediaModel);
+export const Media = mongoose.model('media', mediaSchema);

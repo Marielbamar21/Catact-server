@@ -1,16 +1,16 @@
-import  { Schema, ObjectId } from "mongoose";
+import  { Schema, ObjectId, mongoose } from "mongoose";
 
-export const postModule = new Schema ({
-    id_user: ObjectId,
-    id_userLike: [{ id_user: ObjectId}],
-    hashtag: [{id_hashtag: ObjectId}],
+const postSchema = new Schema ({
+    id_profile_autor: { type:ObjectId , ref: 'profile'},
+    userLike: [{_id : false ,id_profile : { type: ObjectId, ref: 'profile'}}],
+    hashtag: [{_id: false, id_hashtag: { type:ObjectId, ref: 'profile'}}],
     heather : String,
     content: String,
-    id_comment: [{id_comment: ObjectId}],
-    mediaContent: [{id_media: ObjectId}],
+    comment: [{id_comment: {type : ObjectId , ref: 'comment'}}],
+    mediaContent: [ {id_media: {type : ObjectId , ref: 'media'}}],
     dataCreate: { type: Date , default: Date.now},
     dateUpdate: { type: Date , default: Date.now},
     status: { type: Boolean , default: true}
 },{ collection: 'post' });
 
-export const Post = mongoose.model('post', postModule);
+export const Post = mongoose.model('post', postSchema);

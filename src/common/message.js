@@ -1,8 +1,12 @@
 export const message = {
-    create_user: 'Usuario creado exitosamente',
+    create_succesful: 'Creacion realizada exitosamente',
+    update_succesful: 'Actualizacion realizada exitosamente',
     message_succes : 'Operacion Realizada Exitosamente',
+    get_profile: 'El Perfil se encuentra registrado',
+    get_user: 'El usuario se encuentra registrado',
 
-
+    err_profile: 'El perfil no se encuentra registrado',
+    err_user : 'El usuario no se encuentra registrado',
     error_create : 'No se pudo crear el registro en la Base de Datos',
     error_get : 'No se pudo realizar la consulta en la Base de Datos',
     error_update: 'No se pudo realizar la Actualizacion en la Base de datos',

@@ -1,6 +1,6 @@
 import { Schema, mongoose} from "mongoose";
 
-const userModel = new Schema(
+const userSchema = new Schema(
     {
         name: String,
         lastname: String,
@@ -14,4 +14,4 @@ const userModel = new Schema(
     }, { collection: 'user' }
 );
 
-export const User = mongoose.model('user', userModel);
+export const User = mongoose.model('user', userSchema);

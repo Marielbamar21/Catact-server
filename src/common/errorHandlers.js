@@ -1,10 +1,10 @@
 export const handleError = async (error, res) => {
   
-    /*res.status(500).json({
+    res.status(500).json({
       status: 'error',
       message: 'SERVER ERROR',
       error: error.toString()
-    })*/
+    })
     console.log(error)
   }
 export const handleResponse = (res, status, menssage_resp, data = {}) => {

@@ -19,10 +19,10 @@ export const profileController = {
             handleError(err,res);
         }
     },
-    getAllUser : async(req = request, res = response) => {
+    getAllProfile : async(req = request, res = response) => {
         try{
-            const users = await userService.getAllUser();
-            handleResponse(res,200,message.message_succes,users);
+            const profiles = await profileService.getAllProfile();
+            handleResponse(res,200,message.message_succes,profiles);
         }
         catch(err){
             handleError(err,res);
@@ -30,39 +30,30 @@ export const profileController = {
         }
     },
     
-    getUser : async(req = request, res = response) => {
+    getProfile : async(req = request, res = response) => {
         try{
-            const {params : {id_user}} = req
-            const user = await userService.getUser(id_user);
-            handleResponse(res,200,message.message_succes,user);
+            const {params : {id_profile}} = req
+            const profile = await profileService.getOneProfile(id_profile);
+            handleResponse(res,200,message.message_succes,profile);
         }
         catch(err){
             handleError(err,res);
 
         }
     },
-    updateUser : async(req = request, res = response) => {
+    deleteProfile: async( req = request, res = response ) => {
         try{
-            const {id_user,name , lastname , birthDate , email }  = req.params.body
-            const user = await userService.updateUser(id_user , { name : name , lastname : lastname ,
-                                                                birthDate : birthDate , email : email , dateUpdate : new Date });
-            handleResponse(res,200,message.message_succes,user);
+            const { params : {id_profile}} = req;
+            const profile = await profileService.deleteProfile(id_profile);
+            const user = await userService.deleteUser(profile.id_user);
+            console.log(user);
+            handleResponse(res,200,message.message_succes,profile);
+            return;
         }
         catch(err){
             handleError(err,res);
-
         }
+
     },
-    deleteUser: async( req = request, res = response ) => {
-        try{
-            const { params : {id_user}} = req;
-            const delUser = await userService.deleteUser(id_user);
-            handleResponse(res,200,message.message_succes,delUser);
-        }
-        catch(err){
-            handleError(err,res);
-        }
-
+    
     }
-
-}

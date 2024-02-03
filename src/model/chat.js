@@ -1,11 +1,13 @@
-import { Schema, ObjectId } from "mongoose";
+import { Schema, ObjectId , mongoose} from "mongoose";
 
-export const chatModel = new Schema ({
-   id_user: [{id_user: ObjectId}],
-   message :[{id_user: ObjectId, content: String, date: new Date}],
+const messageSchema = new Schema({id_profile: {type:ObjectId, ref: 'profile'}, content: String, date: {type:Date, default : Date.now}})
+
+const chatSchema = new Schema ({
+   profile: [{id_profile: {type:ObjectId, ref: 'profile'}}],
+   message :[messageSchema],
    dataCreate: { type: Date , default: Date.now},
    dateUpdate: { type: Date , default: Date.now},
    status: { type: Boolean , default: true}
 }, { collection: 'chat' });
 
-export const chat = mongoose.model('chat', chatModel);
+export const chat = mongoose.model('chat', chatSchema);
