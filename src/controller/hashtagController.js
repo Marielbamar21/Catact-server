@@ -4,16 +4,17 @@ import { message } from "../common/message.js"
 
 
 export const hashtagController = {
-    createHashtag: async(body,res) => {
+    createHashtag: async(req,res) => {
         try{
+            const { body } = req;
             const hashtag = await hashtagService.createHashtag(body);
-            console.log(message.create_succesful, hashtag);
+            handleResponse(res,200,message.create_succesful, hashtag);
         }
         catch(err){
             console.log(message.error_create, err);
         }
     },
-    deleteHashtas : async(req , res) =>{
+    deleteHashtag : async(req , res) =>{
         try{
             const {params: {id_hashtag}} = req;
             const hashtag = await hashtagService.deleteHashtag(id_hashtag);

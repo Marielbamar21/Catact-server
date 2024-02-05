@@ -88,5 +88,8 @@ export const postController = {
         catch(err){
             handleError(err,res)
         }
+    },
+    addHashtag : async(req,res) => {
+        
     }
 }
