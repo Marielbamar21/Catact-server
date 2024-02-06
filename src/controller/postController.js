@@ -1,6 +1,8 @@
 import { response, request } from "express";
 import { postService } from "../service/postService.js";
-import { handleError,handleResponse } from "../common/errorHandlers.js"
+import { hashtagService } from "../service/hashtagServer.js"
+import { handleError,handleResponse } from "../common/errorHandlers.js";
+import { commentService } from "../service/commentService.js"
 import { message } from "../common/message.js";
 export const postController = {
     createPost: async(req = request, res = response) =>{
@@ -29,9 +31,9 @@ export const postController = {
     getPost: async(req = request, res = response) => 
     {
         try{
-            const { params : {id_profile}} = req;
-            const posts = await postService.getPost(id_profile);
-            handleResponse(res,200,message.message_succes,posts);
+            const { params : {id_post}} = req;
+            const post = await postService.getPost(id_post);
+            !post ?  handleResponse(res,400,message.err_post,null) : handleResponse(res,200,message.message_succes,post);
         }
         catch(err){
             handleError(err,res);
@@ -42,6 +44,7 @@ export const postController = {
         try{
             const { params : {id_profile}} = req;
             const posts = await postService.getAllPostbyUser(id_profile);
+
             handleResponse(res,200,message.message_succes,posts);
         }
         catch(err){
@@ -90,6 +93,62 @@ export const postController = {
         }
     },
     addHashtag : async(req,res) => {
-        
-    }
+        try{
+            const {params: {id_post}} = req;
+            const {name} = req.body;
+            const hashtag = await hashtagService.getHashtagByName(name.trim());
+
+            const post = await postService.createHashtag(id_post, hashtag._id);
+
+            handleResponse(res,200,message.message_succes,post);
+            
+
+        }
+        catch(err){
+            handleError(err,res);
+        }
+
+    },
+    deleteHashtag : async(req,res) => {
+        try{
+            const {params: {id_post}} = req;
+            const { name } = req.body;
+            const hashtag = await hashtagService.getHashtagByName(name.trim());
+            if(!hashtag){
+
+            }
+            const post = await postService.deleteHashtag(id_post,hashtag._id);
+            handleResponse(res,200,message.message_succes,post);
+        }
+        catch(err){
+            handleError(err,res);
+        }
+
+    },
+    addComment : async(req,res) => {
+        try{
+            const {params: {id_post,id_profile}} = req;
+            const { content } = req.body;
+            const comment = await commentService.createComment( {id_profile_autor : id_profile , content : content})
+            const post = await postService.createComment(id_post,comment._id);
+            handleResponse(res,200,message.create_succesful,post);
+        }
+        catch(err){
+            handleError(err,res);
+        }
+
+    },
+    deleteComment : async(req,res) => {
+        try{
+            const {params: {id_post,id_comment}} = req;
+            await commentService.deleteComment(id_comment);
+            const post = await postService.deleteComment(id_post,id_comment);
+            handleResponse(res,200,message.message_succes,post);
+        }
+        catch(err){
+            handleError(err,res);
+        }
+
+    },
+
 }

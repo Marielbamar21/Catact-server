@@ -3,10 +3,11 @@ import { Hashtag } from "../model/hashtag.js";
 import { message } from "../common/message.js"
 
 export const hashtagService = {
-    createHashtag : async( body) => {
+    createHashtag : async( name ) => {
         try{
             await dataBase();
-            const newHashtag = new Hashtag(body);
+            console.log(name)
+            const newHashtag = new Hashtag(name);
             const hashtag = newHashtag.save();
             return hashtag;
         }
@@ -19,6 +20,17 @@ export const hashtagService = {
         try{
             await dataBase();
             const hashtag = await Hashtag.findOne({_id : id_hashtag })
+            return hashtag;
+        }
+        catch(err){
+            console.log( message.error_get, err);
+            return null;
+        }
+    },
+    getHashtagByName : async(name) => {
+        try{
+            await dataBase();
+            const hashtag = await Hashtag.findOne({ name : name })
             return hashtag;
         }
         catch(err){

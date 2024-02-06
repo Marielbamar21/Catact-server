@@ -29,7 +29,7 @@ export const postService = {
     getPost: async(id) =>{
         try{
             await dataBase();
-            const post = await Post.findOne({_id : id});
+            const post = await Post.findOne({_id : id}).populate('comment');
             return post;
         }
         catch(err){
@@ -40,7 +40,6 @@ export const postService = {
     getAllPostbyUser:  async(id_profile) =>{
         try{
             await dataBase();
-            console.log(id_profile , 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHH')
             const post = await Post.find({id_profile_autor: id_profile});
             return post;
         }
@@ -51,7 +50,7 @@ export const postService = {
     updatePost: async(id,data)=>{
         try{
             await dataBase();
-            const post = await Post.findByIdAndUpdate(id, { heather : data.heather , content: data.content, dateUpdate: new Date});
+            const post = await Post.findByIdAndUpdate(id, { heather : data.heather , content: data.content, dateUpdate: new Date},{ new : true});
             return { id_user: id , data};
 
         }
@@ -62,7 +61,7 @@ export const postService = {
     deletePost : async(id) => {
         try{
             await dataBase();
-            const post = Post.findByIdAndUpdate(id,{status : false, dateUpdate: new Date })
+            const post = Post.findByIdAndUpdate(id,{status : false, dateUpdate: new Date },{ new : true})
             return post;
         }
         catch(err){
@@ -72,17 +71,17 @@ export const postService = {
     createUserLike : async(id_post,id_profile) => {
         try{
             await dataBase();
-            const userLike = await Post.findByIdAndUpdate(id_post, { $push: { userLike : {id_profile: id_profile} }, dateUpdate: new Date});
+            const userLike = await Post.findByIdAndUpdate(id_post, { $addToSet : { userLike : {id_profile: id_profile} }, dateUpdate: new Date},{new : true}) ;
             return userLike;
         }
         catch(err){
-            console.log(message.error_create, err);
+            console.log(message.error_create, err); 
         }
     },
     deleteUserLike : async(id_post,id_profile) => {
         try{
             await dataBase();
-            const userLike = await Post.findByIdAndUpdate(id_post, { $pull : { userLike : { id_profile : id_profile} }, dateUpdate: new Date});
+            const userLike = await Post.findByIdAndUpdate(id_post, { $pull : { userLike : { id_profile : id_profile} }, dateUpdate: new Date},{new : true});
             return userLike;
         }
         catch(err){
@@ -92,28 +91,30 @@ export const postService = {
     createHashtag : async(id_post,id_hashtag) => {
         try{
             await dataBase();
-            const hashtag = await Post.findByIdAndUpdate(id_post, { $push: { hashtag : id_hashtag },dateUpdate: new Date});
+            const hashtag = await Post.findByIdAndUpdate(id_post, { $addToSet: { hashtag : { id_hashtag : id_hashtag } },dateUpdate: new Date}, { new: true });
             return hashtag;
         }
         catch(err){
-            console.log(message.error_create);
+            console.log(message.error_create, err);
         }
     },
     deleteHashtag : async(id_post,id_hashtag) => {
         try{
             await dataBase();
-            const hashtag = await Post.findByIdAndUpdate(id_post, { $pull : { hashtag : id_hashtag }, dateUpdate: new Date});
+            console.log(id_post, id_hashtag);
+            const hashtag = await Post.findByIdAndUpdate(id_post, { $pull : { hashtag : { id_hashtag : id_hashtag } }, dateUpdate: new Date}, { new: true });
+            console.log(hashtag);
             return hashtag;
         }
         catch(err){
-            console.log(message.error_delete);
+            console.log(message.error_delete, err);
         }
     },
     
     createComment : async(id_post,id_comment) => {
         try{
             await dataBase();
-            const comment = await Post.findByIdAndUpdate(id_post, { $push: { comment : id_comment }, dateUpdate: new Date});
+            const comment = await Post.findByIdAndUpdate(id_post, { $push: { comment : {id_comment : id_comment} }, dateUpdate: new Date},{ new : true});
             return comment;
         }
         catch(err){
@@ -123,7 +124,7 @@ export const postService = {
     deleteComment : async(id_post,id_comment) => {
         try{
             await dataBase();
-            const comment = await Post.findByIdAndUpdate(id_post, { $pull : { comment : id_comment }, dateUpdate: new Date});
+            const comment = await Post.findByIdAndUpdate(id_post, { $pull : { comment : {id_comment : id_comment} }, dateUpdate: new Date},{ new : true});
             return comment;
         }
         catch(err){
@@ -134,7 +135,7 @@ export const postService = {
     createMediaContent : async(id_post,id_media) => {
         try{
             await dataBase();
-            const media = await Post.findByIdAndUpdate(id_post, { $push: { media : id_media }, dateUpdate: new Date});
+            const media = await Post.findByIdAndUpdate(id_post, { $push: { media : id_media }, dateUpdate: new Date},{ new : true});
             return media;
         }
         catch(err){
@@ -144,7 +145,7 @@ export const postService = {
     deleteMediaContent : async(id_post,id_media) => {
         try{
             await dataBase();
-            const media = await Post.findByIdAndUpdate(id_post, { $pull : { media : id_media },dateUpdate: new Date});
+            const media = await Post.findByIdAndUpdate(id_post, { $pull : { media : id_media },dateUpdate: new Date},{ new : true});
             return media;
         }
         catch(err){

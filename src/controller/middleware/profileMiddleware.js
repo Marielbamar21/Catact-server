@@ -9,11 +9,8 @@ export const validatorProfile = async(req,res,next)=>{
         const profile = await profileService.getOneProfile(id_profile);
         if(!profile){
             handleResponse(res,400,message.err_profile);
-            next();
+            return next();
         }
-        console.log(message.get_profile);
-        console.log(profile);
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAHHHHHHH',profile.id_user);
         validatorUser(profile.id_user,res, next);
     }
     catch(err){
@@ -32,6 +29,6 @@ const validatorUser = async(id_user,res,next) => {
         next();
     }
     catch(err){
-        console.log('Error al validar el usuario',err)
+        console.log('Error al validar el usuario',err);
     }
 }

@@ -6,6 +6,6 @@ const router = Router();
     router.post('/createHashtag',hashtagController.createHashtag)
         .get('/allHashtag', hashtagController.getAllHashtag)
         .get('/:id_hashtag', hashtagController.getHashtag)
-        .delete('/deleteHastag/:id_hashtag', hashtagController.deleteHashtag)
+        .delete('/deleteHashtag/:id_hashtag', hashtagController.deleteHashtag)
 
 export const hashtagRouter = router;

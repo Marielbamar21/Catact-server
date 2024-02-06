@@ -37,7 +37,7 @@ export const hashtagController = {
         try{
             const {params : {id_hashtag}} = req;
             const hashtag = await hashtagService.getHashtag(id_hashtag);
-            handleResponse(res,200,message.create_succesful,hashtag)
+            handleResponse(res,200,message.message_succes,hashtag)
         }
         catch(err){
             handleError(err,res);
